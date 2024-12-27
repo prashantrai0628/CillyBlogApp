@@ -5,6 +5,8 @@ import { IoCloseSharp } from "react-icons/io5";
 import { useAuth } from "../context/AuthProvider";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { BACKEND_URL } from "../utils/constant"; // Import BACKEND_URL
+
 
 function Navbar({ toggleDarkMode, isDarkMode }) {
   const [show, setShow] = useState(false);
@@ -16,7 +18,7 @@ function Navbar({ toggleDarkMode, isDarkMode }) {
     e.preventDefault();
     try {
       const { data } = await axios.get(
-        "http://localhost:4001/api/users/logout",
+        `${BACKEND_URL}/users/logout`,
         { withCredentials: true }
       );
       localStorage.removeItem("jwt");

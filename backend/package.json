@@ -11,7 +11,7 @@
   "keywords": [
     "blog-app"
   ],
-  "author": "Akhil k",
+  "author": "Prashant k",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
