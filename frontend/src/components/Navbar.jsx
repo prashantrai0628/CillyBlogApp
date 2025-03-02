@@ -10,19 +10,17 @@ import { BACKEND_URL } from "../utils/constant"; // Import BACKEND_URL
 function Navbar({ toggleDarkMode, isDarkMode }) {
   const [show, setShow] = useState(false);
 
-  const { profile, isAuthenticated, setIsAuthenticated } = useAuth();
+  const { profile, isAuthenticated, logout } = useAuth(); // Use logout from AuthProvider
   const navigateTo = useNavigate();
 
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.get(
-        `${BACKEND_URL}/users/logout`,
-        { withCredentials: true }
-      );
-      localStorage.removeItem("jwt");
+      const { data } = await axios.get(`${BACKEND_URL}/users/logout`, {
+        withCredentials: true,
+      });
+      logout(); // Use the logout function from AuthProvider
       toast.success(data.message);
-      setIsAuthenticated(false);
       navigateTo("/login");
     } catch (error) {
       console.error(error);
