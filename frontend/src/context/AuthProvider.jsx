@@ -9,47 +9,61 @@ export const AuthProvider = ({ children }) => {
   const [profile, setProfile] = useState();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  // Function to fetch user profile
+  const fetchProfile = async () => {
+    try {
+      const token = localStorage.getItem("jwt"); // Retrieve the token from localStorage
+      if (token) {
+        const { data } = await axios.get(`${BACKEND_URL}/users/my-profile`, {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Include the token in the request headers
+          },
+        });
+        setProfile(data.user);
+        setIsAuthenticated(true);
+      }
+    } catch (error) {
+      console.log(error);
+      // If there's an error (e.g., token is invalid), clear the authentication state
+      localStorage.removeItem("jwt");
+      setProfile(null);
+      setIsAuthenticated(false);
+    }
+  };
+
+  // Function to fetch blogs
+  const fetchBlogs = async () => {
+    try {
+      const { data } = await axios.get(`${BACKEND_URL}/blogs/all-blogs`, {
+        withCredentials: true,
+      });
+      setBlogs(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // On component mount, fetch blogs and profile
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        // token should be let type variable because its value will change in every login. (in backend also)
-        let token = localStorage.getItem("jwt"); // Retrieve the token directly from the localStorage (Go to login.jsx)
-        console.log(token);
-        if (token) {
-          const { data } = await axios.get(
-            `${BACKEND_URL}/users/my-profile`,
-            {
-              withCredentials: true,
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          console.log(data.user);
-          setProfile(data.user);
-          setIsAuthenticated(true);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const fetchBlogs = async () => {
-      try {
-        const { data } = await axios.get(
-          `${BACKEND_URL}/blogs/all-blogs`,
-          { withCredentials: true }
-        );
-        console.log(data);
-        setBlogs(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     fetchBlogs();
     fetchProfile();
   }, []);
+
+  // Function to handle login
+  const login = (token, userProfile) => {
+    localStorage.setItem("jwt", token); // Store the token in localStorage
+    setProfile(userProfile); // Set the user profile
+    setIsAuthenticated(true); // Set authentication state to true
+  };
+
+  // Function to handle logout
+  const logout = () => {
+    localStorage.removeItem("jwt"); // Remove the token from localStorage
+    setProfile(null); // Clear the user profile
+    setIsAuthenticated(false); // Set authentication state to false
+  };
 
   return (
     <AuthContext.Provider
@@ -59,6 +73,8 @@ export const AuthProvider = ({ children }) => {
         setProfile,
         isAuthenticated,
         setIsAuthenticated,
+        login, // Provide login function
+        logout, // Provide logout function
       }}
     >
       {children}
