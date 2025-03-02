@@ -1,23 +1,3 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Poppins:wght@300;400&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Poppins:wght@300;400&family=Roboto:wght@400;700&display=swap');
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-body{
-    font-family: 'Poppins', sans-serif;
-    background-color: #f0f8ff;
-   
-}
-h1,h2,h3,h4,h5,h6{
-    font-family: 'Roboto', sans-serif;
-}
-
-span{
-    font-family: 'Fredoka', sans-serif;
-} */
-
 /* Font Imports */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Poppins:wght@300;400&display=swap');
@@ -30,10 +10,10 @@ span{
 
 /* Light and Dark Mode Variables */
 :root {
-  --light-bg: #f0f8ff;
-  --light-text: #333;
-  --dark-bg: #1e1e1e;
-  --dark-text: #f1f1f1;
+  --light-bg: #f0f8ff; /* Light background */
+  --light-text: #333; /* Dark text for light mode */
+  --dark-bg: #1e1e1e; /* Dark background */
+  --dark-text: #f1f1f1; /* Light text for dark mode */
 }
 
 /* Default (Light Mode) */
@@ -45,6 +25,11 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Roboto', sans-serif;
+  color: var(--light-text); /* Ensure headings use light mode text color */
+}
+
+span {
+  font-family: 'Fredoka', sans-serif;
 }
 
 /* Dark Mode Styles */
@@ -54,26 +39,25 @@ body.dark-mode {
 }
 
 /* Override specific styles when dark mode is active */
-body.dark-mode h1, 
-body.dark-mode h2, 
-body.dark-mode h3, 
-body.dark-mode h4, 
-body.dark-mode h5, 
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
 body.dark-mode h6 {
-  color: var(--dark-text);
+  color: var(--dark-text); /* Ensure headings use dark mode text color */
 }
 
 /* Ensure the body has enough padding to account for the fixed navbar */
 body {
-    padding-top: 64px; /* Adjust this based on your navbar's height */
-  }
-  
-  /* Add styles for navbar-specific customizations */
-  nav {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
-    z-index: 50; /* Ensure navbar appears on top of all other elements */
-  }
-  
+  padding-top: 64px; /* Adjust this based on your navbar's height */
+}
+
+/* Add styles for navbar-specific customizations */
+nav {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+  z-index: 50; /* Ensure navbar appears on top of all other elements */
+}
 
 /* Optional: Adjust navbar, buttons, or other components */
 body.dark-mode .navbar,
@@ -87,3 +71,36 @@ body.dark-mode .button {
 }
 
 /* Add more specific styles as needed for dark mode */
+
+/* Ensure links are visible in both light and dark modes */
+a {
+  color: inherit; /* Inherit text color from parent */
+}
+
+body.dark-mode a {
+  color: var(--dark-text); /* Ensure links are visible in dark mode */
+}
+
+/* Ensure buttons and other interactive elements are visible */
+button {
+  color: var(--light-text); /* Default button text color */
+}
+
+body.dark-mode button {
+  color: var(--dark-text); /* Button text color in dark mode */
+}
+
+/* Ensure form inputs are visible */
+input,
+textarea,
+select {
+  background-color: white; /* Default input background */
+  color: var(--light-text); /* Default input text color */
+}
+
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
+  background-color: #444; /* Dark mode input background */
+  color: var(--dark-text); /* Dark mode input text color */
+}
